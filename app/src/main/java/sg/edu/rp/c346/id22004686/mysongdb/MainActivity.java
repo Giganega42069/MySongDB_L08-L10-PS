@@ -35,9 +35,21 @@ public class MainActivity extends AppCompatActivity {
                 DBHelper db = new DBHelper(MainActivity.this);
 
                 int ratings = rating.getCheckedRadioButtonId();
+                int starz = 0;
+                if (ratings == R.id.R1){
+                    starz = 1;
+                } else if (ratings == R.id.R2) {
+                    starz = 2;
+                } else if (ratings == R.id.R3) {
+                    starz = 3;
+                } else if (ratings == R.id.R4) {
+                    starz = 4;
+                } else if (ratings == R.id.R5) {
+                    starz = 5;
+                }
 
                 // Insert a task
-                db.insertSong(title.getText().toString(),singer.getText().toString(), Integer.parseInt(year.getText().toString()),ratings);
+                db.insertSong(title.getText().toString(),singer.getText().toString(), Integer.parseInt(year+""),Integer.parseInt(String.valueOf(starz)));
                 db.close();
             }
         });
@@ -45,10 +57,8 @@ public class MainActivity extends AppCompatActivity {
         getsong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBHelper db = new DBHelper(MainActivity.this);
                 Intent intent = new Intent(MainActivity.this, SongList.class);
                 startActivity(intent);
-                db.close();
             }
         });
     }

@@ -14,4 +14,7 @@
     <string name="stars">Stars</string>
     <string name="insert">INSERT</string>
     <string name="show_list">SHOW LIST</string>
+    <string name="delete">DELETE</string>
+    <string name="update">UPDATE</string>
+    <string name="cancel">CANCEL</string>
 </resources>
