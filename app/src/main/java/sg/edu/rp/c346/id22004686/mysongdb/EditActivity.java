@@ -40,6 +40,8 @@ public class EditActivity extends AppCompatActivity {
 
         title.setText(data.getTitle());
         singer.setText(data.getSingers());
+        String yearvalue = String.valueOf(data.getYear());
+        year.setText(yearvalue);
         if (data.getStars() == 1) {
             B1 = findViewById(R.id.R1);
             B1.setChecked(true);

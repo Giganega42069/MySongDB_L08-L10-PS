@@ -5,14 +5,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.Serializable;
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 
 public class SongList extends AppCompatActivity {
+    Button btn5Stars,resetz;
     ListView lv;
     ArrayList<Song> al;
 
@@ -22,6 +25,8 @@ public class SongList extends AppCompatActivity {
         setContentView(R.layout.activity_song_list);
 
         lv = findViewById(R.id.lv);
+        btn5Stars = findViewById(R.id.btn5Stars);
+        resetz = findViewById(R.id.resetz);
 
         DBHelper db = new DBHelper(SongList.this);
 
@@ -29,6 +34,20 @@ public class SongList extends AppCompatActivity {
         db.close();
         ArrayAdapter adapter = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1,al);
         lv.setAdapter(adapter);
+
+        btn5Stars.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Object> newSongs = new ArrayList<>();
+                for (int i = 0; i < db.getSongs().size(); i++) {
+                    if (al.get(i).getStars() == 5) {
+                        newSongs.add(al.get(i));
+                    }
+                    ArrayAdapter aaNewSongs = new ArrayAdapter<>(SongList.this, android.R.layout.simple_list_item_1, newSongs);
+                    lv.setAdapter(aaNewSongs);
+                }
+            }
+        });
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -41,20 +60,24 @@ public class SongList extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        resetz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DBHelper dbh = new DBHelper(SongList.this);
+                al.clear();
+                al.addAll(dbh.getSongs());
+                ArrayAdapter adapter = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1, al);
+                lv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        int cycle = 0;
-        cycle++;
-        if (cycle > 1) {
-            DBHelper dbh = new DBHelper(SongList.this);
-            al.clear();
-            al.addAll(dbh.getSongs());
-            ArrayAdapter adapter = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1, al);
-            lv.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+
+        resetz.performClick();
         }
     }
-}
