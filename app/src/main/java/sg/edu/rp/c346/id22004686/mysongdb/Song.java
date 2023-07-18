@@ -37,7 +37,7 @@ public class Song implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return "ID: "+id + "\nTitle: " + title + "\nSingers: " + singers + "\nYear: " + year + "\nRating: " + stars;
+        return  "*".repeat(stars);
     }
 
 }

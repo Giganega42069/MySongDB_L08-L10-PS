@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Insert a task
-                db.insertSong(title.getText().toString(),singer.getText().toString(), Integer.parseInt(year.getText().toString()),Integer.parseInt(String.valueOf(starz)));
+                db.insertSong(title.getText().toString(),singer.getText().toString(), Integer.parseInt(year.getText().toString()),starz);
                 db.close();
             }
         });

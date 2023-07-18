@@ -18,6 +18,7 @@ public class SongList extends AppCompatActivity {
     Button btn5Stars,resetz;
     ListView lv;
     ArrayList<Song> al;
+    CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +39,13 @@ public class SongList extends AppCompatActivity {
         btn5Stars.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Object> newSongs = new ArrayList<>();
+                ArrayList<Song> newSongs = new ArrayList<>();
                 for (int i = 0; i < db.getSongs().size(); i++) {
                     if (al.get(i).getStars() == 5) {
                         newSongs.add(al.get(i));
                     }
-                    ArrayAdapter aaNewSongs = new ArrayAdapter<>(SongList.this, android.R.layout.simple_list_item_1, newSongs);
-                    lv.setAdapter(aaNewSongs);
+                    CustomAdapter adapter = new CustomAdapter(SongList.this,R.layout.row,newSongs);
+                    lv.setAdapter(adapter);
                 }
             }
         });
@@ -67,7 +68,7 @@ public class SongList extends AppCompatActivity {
                 DBHelper dbh = new DBHelper(SongList.this);
                 al.clear();
                 al.addAll(dbh.getSongs());
-                ArrayAdapter adapter = new ArrayAdapter(SongList.this, android.R.layout.simple_list_item_1, al);
+                CustomAdapter adapter = new CustomAdapter(SongList.this,R.layout.row,al);
                 lv.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
